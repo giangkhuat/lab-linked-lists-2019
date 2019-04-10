@@ -57,9 +57,11 @@ public class SimpleDLL<T> implements SimpleList<T> {
       int pos = 0;
 
       /**
-       * A cursor between neighboring values.
+       * The cursor is between neighboring values, so we start links
+       * to the previous and next value..
        */
-      Node2<T> cursor = new Node2<T>(null, null, SimpleDLL.this.front);
+      Node2<T> prev = null;
+      Node2<T> next = SimpleDLL.this.front;
 
       /**
        * The node to be updated by remove or set.  Has a value of
@@ -75,16 +77,16 @@ public class SimpleDLL<T> implements SimpleList<T> {
         // Special case: The list is empty)
         if (SimpleDLL.this.front == null) {
           SimpleDLL.this.front = new Node2<T>(val);
-          this.cursor.prev = SimpleDLL.this.front;
+          this.prev = SimpleDLL.this.front;
         } // empty list
         // Special case: At the front of a list
-        else if (cursor.prev == null) {
-          this.cursor.prev = this.cursor.next.insertBefore(val);
-          SimpleDLL.this.front = this.cursor.prev;
+        else if (prev == null) {
+          this.prev = this.next.insertBefore(val);
+          SimpleDLL.this.front = this.prev;
         } // front of list
         // Normal case
         else {
-          this.cursor.prev = this.cursor.prev.insertAfter(val);
+          this.prev = this.prev.insertAfter(val);
         } // normal case
 
         // Note that we cannot update
@@ -111,10 +113,10 @@ public class SimpleDLL<T> implements SimpleList<T> {
          throw new NoSuchElementException();
         } // if
         // Identify the node to update
-        this.update = this.cursor.next;
+        this.update = this.next;
         // Advance the cursor
-        this.cursor.prev = this.cursor.next;
-        this.cursor.next = this.cursor.next.next;
+        this.prev = this.next;
+        this.next = this.next.next;
         // Note the movement
         ++this.pos;
         // And return the value
@@ -143,11 +145,11 @@ public class SimpleDLL<T> implements SimpleList<T> {
         } // if
 
         // Update the cursor
-        if (this.cursor.next == this.update) {
-          this.cursor.next = this.update.next;
+        if (this.next == this.update) {
+          this.next = this.update.next;
         } // if
-        if (this.cursor.prev == this.update) {
-          this.cursor.prev = this.update.prev;
+        if (this.prev == this.update) {
+          this.prev = this.update.prev;
           --this.pos;
         } // if
 
