@@ -148,6 +148,7 @@ public class SimpleDLL<T> implements SimpleList<T> {
         } // if
         if (this.cursor.prev == this.update) {
           this.cursor.prev = this.update.prev;
+          --this.pos;
         } // if
 
         // Update the front
