@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
  *
  * These do *not* (yet) support the Fail Fast policy.
  */
+@SuppressWarnings("unused")
 public class SimpleDLL<T> implements SimpleList<T> {
   // +--------+------------------------------------------------------------
   // | Fields |
