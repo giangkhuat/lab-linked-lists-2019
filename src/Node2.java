@@ -1,4 +1,4 @@
-/**
+ /**
  * Nodes for doubly-linked structures.
  */
 public class Node2<T> {

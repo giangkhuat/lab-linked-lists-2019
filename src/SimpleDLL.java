@@ -109,6 +109,7 @@ public class SimpleDLL<T> implements SimpleList<T> {
         return (this.pos > 0);
       } // hasPrevious()
 
+      // update points to the same thing as previous after the call
       public T next() {
         if (!this.hasNext()) {
          throw new NoSuchElementException();
@@ -135,8 +136,12 @@ public class SimpleDLL<T> implements SimpleList<T> {
       public T previous() throws NoSuchElementException {
         if (!this.hasPrevious())
           throw new NoSuchElementException();
-        // STUB
-        return null;
+        T val = this.prev.value;
+        update = prev;
+        prev = prev.prev;
+        next = next.prev;
+        pos--;
+        return val;
       } // previous()
 
       public void remove() {
@@ -167,6 +172,34 @@ public class SimpleDLL<T> implements SimpleList<T> {
         this.update = null;
       } // remove()
 
+      /*
+       * Another implementation easier to understand
+       * @s
+       * if (update == null)
+       * throw exception 
+       * case 1: previous was called,
+       * if (update == next) {
+       * next = update.next;
+       * next.prev = prev;
+       * prev.next = next;
+       * update = null;
+       * size--;
+       * --pos;
+       * }
+       * 
+       * Case 2: next(0 was called, now update = prev
+       * else if (update == prev)
+       * {
+       * prev = prev.prev;
+       * prev.next  = next;
+       * next.prev = prev;
+       * update = null;
+       * size--;
+       * --pos;
+       * 
+       * }
+       * 
+       */
       public void set(T val) {
         // Sanity check
         if (this.update == null) {
